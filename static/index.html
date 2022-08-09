@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title></title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="https://unpkg.com/vue@3"></script>
+    <script src="/socket.io/socket.io.js"></script>
+    <!-- <link href="css/style.css" rel="stylesheet"> -->
+  </head>
+  <body>
+    <div id="app">{{ message }}</div>
+
+    <script>
+      const { createApp } = Vue
+      const socket = io()
+
+      createApp({
+        data () {
+          return {
+            message: 'Hello Vue!'
+          }
+        },
+
+        mounted () {
+          console.log('OK')
+          socket.emit('test', { value: 'OK' })
+        }
+      }).mount('#app')
+    </script>
+  </body>
+</html>
+
