@@ -1,3 +1,4 @@
+import * as dotenv from 'dotenv'
 import 'core-js/stable'
 import 'regenerator-runtime/runtime'
 
@@ -6,31 +7,31 @@ import http from 'http'
 import { Server } from 'socket.io'
 import path from 'path'
 
-import { a } from '#routes'
+import { database } from './models'
+import UserRoute from './routes/user.route'
 
 
-console.log(a)
+dotenv.config()
+try {
+  database.authenticate();
+  console.log('Connection has been established successfully.');
+} catch (error) {
+  console.error('Unable to connect to the database:', error);
+}
 
 const app = express()
 
 app.use('/static', express.static(path.join(__dirname, 'static')))
-
+app.use('/user', UserRoute)
 
 const server = http.createServer(app)
-const io = new Server(server)
-
-
-app.get('/', (req, res) => {
-  return res.sendFile(path.join(__dirname, '/static/index.html'))
+const io = new Server(server, {
+  cors: {
+    origin: '*'
+  }
 })
 
-io.on('connection', (socket) => {
-  console.log('A user connected')
-
-  socket.on('test', (msg) => {
-    console.log(msg)
-  })
-})
+app.set('io', io)
 
 server.listen(6001, () => {
   console.log('Listen on *:6001')
