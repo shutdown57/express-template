@@ -5,10 +5,10 @@ import 'regenerator-runtime/runtime'
 import express from 'express'
 import http from 'http'
 import { Server } from 'socket.io'
-import path from 'path'
 
 import { database } from './models'
-import UserRoute from './routes/user.route'
+import MainRoute from './routes/main.route'
+import UserIO from './io/user.io'
 
 
 dotenv.config()
@@ -20,10 +20,6 @@ try {
 }
 
 const app = express()
-
-app.use('/static', express.static(path.join(__dirname, 'static')))
-app.use('/user', UserRoute)
-
 const server = http.createServer(app)
 const io = new Server(server, {
   cors: {
@@ -31,7 +27,11 @@ const io = new Server(server, {
   }
 })
 
-app.set('io', io)
+// app.set('io', io)
+UserIO(io)
+
+// Routes
+app.use('/', MainRoute)
 
 server.listen(6001, () => {
   console.log('Listen on *:6001')
