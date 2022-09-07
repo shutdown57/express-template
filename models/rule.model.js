@@ -11,7 +11,7 @@ Rule.init({
     primaryKey: true,
     autoIncrement: false
   },
-  ptype: {
+  p_type: {
     type: DataTypes.STRING
   },
   v0: {

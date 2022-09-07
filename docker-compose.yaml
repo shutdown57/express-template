@@ -1,23 +1,40 @@
 version: '3'
 
 services:
-
-  db:
-    image: mysql
-    # NOTE: use of "mysql_native_password" is not recommended: https://dev.mysql.com/doc/refman/8.0/en/upgrading-from-previous-series.html#upgrade-caching-sha2-password
-    # (this is just an example, not intended to be a production configuration)
-    command: --default-authentication-plugin=mysql_native_password
-    restart: always
+  web:
+    # image: node:16-bullseye
+    build: .
+    command: yarn start
     ports:
-      - "3306:3306"
+      - "6001:3000"
     environment:
-      MYSQL_ROOT_PASSWORD: example
-      MYSQL_DATABASE: chat
-      MYSQL_PASSWORD: root
-      MYSQL_USER: admin
+      APP_HOST: ${APP_HOST}
+      APP_PORT: ${APP_PORT}
+      DATABASE_NAME: ${DATABASE_NAME}
+      DATABASE_USER: ${DATABASE_USER}
+      DATABASE_HOST: ${DATABASE_HOST}
+      DATABASE_PORT: ${DATABASE_PORT}
+      DATABASE_PASSWORD: ${DATABASE_PASSWORD}
 
-  adminer:
-    image: adminer
-    restart: always
-    ports:
-      - 8080:8080
+    volumes:
+      - ./:/app
+
+  # db:
+  #   image: mysql
+  #   # NOTE: use of "mysql_native_password" is not recommended: https://dev.mysql.com/doc/refman/8.0/en/upgrading-from-previous-series.html#upgrade-caching-sha2-password
+  #   # (this is just an example, not intended to be a production configuration)
+  #   command: --default-authentication-plugin=mysql_native_password
+  #   restart: always
+  #   ports:
+  #     - "3306:3306"
+  #   environment:
+  #     MYSQL_ROOT_PASSWORD: example
+  #     MYSQL_DATABASE: chat
+  #     MYSQL_PASSWORD: root
+  #     MYSQL_USER: admin
+
+  # adminer:
+  #   image: adminer
+  #   restart: always
+  #   ports:
+  #     - 8080:8080

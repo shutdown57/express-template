@@ -2,37 +2,27 @@ import { DataTypes, Model } from 'sequelize'
 
 import { database } from '../models'
 
-
-export class User extends Model {}
-User.init({
+export class Chat extends Model {}
+Chat.init({
   id: {
     type: DataTypes.STRING,
     primaryKey: true,
     autoIncrement: false
   },
-  name: {
-    type: DataTypes.STRING
+  users: {
+    type: DataTypes.JSON
   },
-  email: {
-    type: DataTypes.STRING
-  },
-  rules: {
-    type: DataTypes.VIRTUAL,
-    get () {
-      return this.Rules.map(v => v.v1)
-    }
+  deleted_at: {
+    type: DataTypes.DATE
   },
   created_at: {
     type: DataTypes.DATE
   },
   updated_at: {
     type: DataTypes.DATE
-  },
-  mobile: {
-    type: DataTypes.STRING
   }
 }, {
   sequelize: database,
   timestamps: false,
-  tableName: 'users'
+  tableName: 'chats'
 })

@@ -9,6 +9,7 @@ import { Server } from 'socket.io'
 import { database } from './models'
 import MainRoute from './routes/main.route'
 import UserIO from './io/user.io'
+import ChatIO from './io/chat.io'
 
 
 dotenv.config()
@@ -27,12 +28,14 @@ const io = new Server(server, {
   }
 })
 
-// app.set('io', io)
 UserIO(io)
+ChatIO(io)
 
 // Routes
 app.use('/', MainRoute)
 
-server.listen(6001, () => {
+const port = process.env.APP_PORT
+
+server.listen(port || 3000, () => {
   console.log('Listen on *:6001')
 })
