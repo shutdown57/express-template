@@ -5,6 +5,7 @@ import 'regenerator-runtime/runtime'
 import express from 'express'
 import http from 'http'
 import { Server } from 'socket.io'
+import { v4 as uuid4 } from 'uuid'
 
 import { database } from './models'
 import MainRoute from './routes/main.route'
@@ -27,6 +28,10 @@ const io = new Server(server, {
     origin: '*'
   }
 })
+
+io.engine.generateId = (req) => {
+  return uuid4()
+}
 
 UserIO(io)
 ChatIO(io)
