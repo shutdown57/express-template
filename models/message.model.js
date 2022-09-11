@@ -32,8 +32,8 @@ Message.init({
   updatedAt: 'updated_at'
 })
 
-User.hasMany(Message)
-Message.belongsTo(User)
+User.hasMany(Message, { foreignKey: 'user_id', constraints: false })
+Message.belongsTo(User, { foreignKey: 'user_id', constraints: false })
 
-Chat.hasMany(Message)
-Message.belongsTo(Chat)
+Chat.hasMany(Message, { foreignKey: 'chat_id', constraints: false })
+Message.belongsTo(Chat, { foreignKey: 'chat_id', constraints: false })
